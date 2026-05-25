@@ -1,0 +1,92 @@
+name: Build Debian Package
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - '**'
+
+    tags:
+      - '*'
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # ==========================================================
+      # Checkout
+      # ==========================================================
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ==========================================================
+      # Install dependencies
+      # ==========================================================
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+
+          sudo apt install -y \
+            dia \
+            make \
+            dpkg-dev \
+            sed \
+            grep \
+            findutils
+
+      # ==========================================================
+      # Build package
+      # ==========================================================
+
+      - name: Build .deb package
+        run: |
+          make deb
+
+      # ==========================================================
+      # Locate generated package
+      # ==========================================================
+
+      - name: Locate generated package
+        id: package
+
+        run: |
+          FILE=$(find deb -name "*.deb" | head -n 1)
+
+          echo "file=$FILE" >> $GITHUB_OUTPUT
+
+          echo "PACKAGE FILE:"
+          echo "$FILE"
+
+      # ==========================================================
+      # Upload artifact (all pushes)
+      # ==========================================================
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+
+        with:
+          name: deb-package
+          path: ${{ steps.package.outputs.file }}
+          retention-days: 1
+
+      # ==========================================================
+      # Create Release (only tags)
+      # ==========================================================
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+
+        uses: softprops/action-gh-release@v2
+
+        with:
+          files: ${{ steps.package.outputs.file }}
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

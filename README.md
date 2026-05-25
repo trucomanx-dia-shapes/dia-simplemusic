@@ -1,39 +1,39 @@
-# Dia-Shapes para una notacion musical simple
+# dia-simplemusic
 
-## Cria/compila os shapes
-Cria os arquivos *.shape e *.png. 
+![logo](screenshot.png)
 
-	make shapes
+## Download
 
-## Eliminar arquivos criados
-Elimina os arquivos *.shape e *.png.
+To download, go to the [releases page](https://github.com/trucomanx-dia-shapes/dia-simplemusic/releases).
+    
+## Manual install/uninstall shapes in the Dia directory
 
-	make clean
+### Install
+Manual installation of the package in Dia. Installation is done in the `~/.dia` directory.
 
-## Instala/desinstala os shapes no directorio de Dia 
-Instala el paquete gafieira-notation em Dia, se necessário primeiro faz `make shapes`.
-A instalação é feita no diretório `~/.dia`.
+    make shapes
+    make install
 
-	make install
-
-Pelo contrario, para desinstalar usamos:
+### Uninstall
+To uninstall, use:
 
     make uninstall
 
-A desinstalação é feita no diretório `~/.dia`.
+Uninstallation is done in the `~/.dia` directory.
 
-## Executa Dia
+### Clean
+Finally, if desired, delete the *.shape and *.png files.
 
-	make run
+    make clean
 
-## Criar um arquivo comprimido do projeto
-Cria um arquivo em `dist/dia-simplemusic-VERSION.tar.gz` onde `VERSION` é a versão atual do projeto.
+## Create a release
 
-	make dist
+### Compressed file
+Creates a file at `dist/dia-simplemusic-VERSION.tar.gz` where `VERSION` is the current version of the project.
 
-## Criar um arquivo deb do projeto
-Cria um arquivo em `deb/dia-simplemusic-VERSION_all.deb` onde `VERSION` é a versão atual do projeto.
+    make dist
 
-	make deb
+### DEB file
+Creates a file in `deb/dia-simplemusic-VERSION_all.deb` where `VERSION` is the current version of the project.
 
-
+    make deb
